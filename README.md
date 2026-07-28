@@ -1,7 +1,40 @@
-For personal use.
+This is for my personal use and Gemini generated the whole thing so don't ask me how to fix anything haha!
+You can either download the ZIP of this thing to use locally or visit https://x-archive-likedpostsbrowser.vercel.app/ to use. 
 
-I used Gemini to create this so don't ask.
+# 🐦 Twitter Likes Media Archive Browser 
 
-https://x-archive-likedpostsbrowser.vercel.app/
+## ✨ Features
 
-fix spelling cuz i was dumb
+- 🔒 **100% Client-Side & Private**: Your `like.js` file is stored locally in your browser's `localStorage`. No data is sent to external backend databases.
+- 🕒 **Snowflake Date Decoder**: Extracts accurate local device timestamps directly from Twitter 64-bit Tweet IDs.
+- 🎥 **Native Video & Image Player**: Plays `.mp4` videos and displays full-res photos using dynamic referral stripping (`<meta name="referrer" content="no-referrer">`) to bypass 403 CDN hotlink blocks on live platforms like Vercel.
+- 📱 **9:16 Vertical Sizing Support**: Expands media containers (up to 720px) so TikTok-style, Reels, and portrait videos/images display full size without being awkwardly squished.
+- 🎛️ **Multi-Filter System**: Toggle active filters simultaneously:
+  - 🛑 **Hide Suspended** *(Default)*
+  - 🔒 **Hide Protected**
+  - 📷 **Without Text**
+  - 🖼️ **Has Media**
+  - 📝 **Without Media**
+  - 🔒 **Only Protected**
+- ↕️ **Custom Sorting Engine**:
+  - **Default (Archive Order)**: Preserves the exact sequence from your exported `like.js`.
+  - **Sort: Newest First**
+  - **Sort: Oldest First**
+- ⚡ **Deep Search Indexer**: Pre-fetches missing handles and display names in the background via VxTwitter API, allowing you to search authors across thousands of posts.
+- 🔄 **Per-Post Reload Button**: Re-fetch individual post metadata if Twitter CDN streams fail or posts update.
+- 🧹 **One-Click Cache Reset**: Easily purge your saved archive and cached tweet metadata with a single click.
+
+## 🛠️ Tech Stack
+
+- **Frontend**: Pure Vanilla HTML5, CSS3, JavaScript (ES6+)
+- **API**: [VxTwitter API](https://github.com/dper2174/vxtwitter) (for live metadata fetching)
+- **Storage**: Browser `localStorage` API
+- **Deployment**: Zero build steps — Vercel, GitHub Pages, or any static hosting compatible.
+
+## 🛡️ Privacy & Security Notice
+
+This application operates completely on your local device:
+
+* Your `like.js` file is parsed entirely inside your browser.
+* Public metadata and media links are requested through `api.vxtwitter.com`.
+* No personal data, login credentials, or private information is stored or collected.
