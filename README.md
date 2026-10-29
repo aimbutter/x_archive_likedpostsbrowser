@@ -1,4 +1,4 @@
-**Download the ZIP of this thing to use locally on your computer.**
+**Download the ZIP to use locally on your computer.**
 
 
 ## ✨ Features
