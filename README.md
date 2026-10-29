@@ -1,13 +1,4 @@
-This is for my personal use and Gemini generated the whole thing so don't ask me how to fix anything haha!
-
-You can either download the ZIP of this thing to use locally or visit https://x-archive-likedpostsbrowser.vercel.app/ to use. 
-
-How to Get Your like.js File???
-1. Go to Twitter/X Settings -> Your Account -> Download an archive of your data.
-2. Request your archive and wait for Twitter to generate the .zip file.
-3. Download and extract the .zip archive.
-4. Navigate to data/like.js.
-5. Drag and drop like.js into the upload zone of this website.
+**Download the ZIP of this thing to use locally on your computer.**
 
 
 ## ✨ Features
