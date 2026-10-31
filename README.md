@@ -1,4 +1,4 @@
-**Download and use on your own computer. Using on my deployment is alright but it might not work properly.**
+**Download and use on your own computer. Using on my [deployment](https://x-archive-likedpostsbrowser-r489wt4qh-alwaysinmyhearts-projects.vercel.app) is alright but it might not work properly.**
 
 # Liked Post Browser 🐦
 
