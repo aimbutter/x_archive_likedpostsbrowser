@@ -1,38 +1,59 @@
-**Download the ZIP to use locally on your computer.**
+**Download and use on your own computer. Using on my deployment is alright but it might not work properly.**
 
+# Liked Post Browser 🐦
+
+A lightweight, local web application to browse, filter, search, and download high-resolution media from your Twitter/X archive (`like.js`).
+
+---
 
 ## ✨ Features
 
-- 🔒 **100% Client-Side & Private**: Your `like.js` file is stored locally in your browser's `localStorage`. No data is sent to external backend databases.
-- 🕒 **Snowflake Date Decoder**: Extracts accurate local device timestamps directly from Twitter 64-bit Tweet IDs.
-- 🎥 **Native Video & Image Player**: Plays `.mp4` videos and displays full-res photos using dynamic referral stripping (`<meta name="referrer" content="no-referrer">`) to bypass 403 CDN hotlink blocks on live platforms like Vercel.
-- 📱 **9:16 Vertical Sizing Support**: Expands media containers (up to 720px) so TikTok-style, Reels, and portrait videos/images display full size without being awkwardly squished.
-- 🎛️ **Multi-Filter System**: Toggle active filters simultaneously:
-  - 🛑 **Hide Suspended** *(Default)* - Remove all those `"This Post is from a suspended account."` in `like.js`
-  - 🔒 **Hide Protected** - Remove all those `"You’re unable to view this Post because this account owner limits who can view their Posts."` in `like.js`
-  - 📷 **Without Text** - i don't know about this filter because i see posts with no text but when i open it, it is from protected account that i follow OR the account is no longer exist
-  - 🖼️ **Has Media** - has video or images or both (have `t.co/xx` in `like.js`)
-  - 📝 **Without Media** - text only, no media (have **no** `t.co/xx` in `like.js`)
-  - 🔒 **Only Protected** - Opposite of **Hide Protected**, it shows posts from protected accounts instead. You must open live post to see what they are.
-- ↕️ **Custom Sorting Engine**:
-  - **Default (Archive Order)**: Preserves the exact sequence from your exported `like.js`.
-  - **Sort: Newest First**
-  - **Sort: Oldest First**
-- ⚡ **Deep Search Indexer**: Pre-fetches handles and display names in the background via VxTwitter API, so you can search the Twitter name without having to check every pages.
-- 🔄 **Per-Post Reload Button**: Re-fetch individual post metadata if Twitter CDN streams fail or posts update.
-- 🧹 **One-Click Cache Reset**: Easily purge your saved archive and cached tweet metadata with a single click.
+* **📁 Archive Parser**: Drag and drop your Twitter `like.js` file to load your liked posts locally.
+* **⚡ Smart Media Fetching**: Uses **FixTweet** and **VxTwitter** APIs with auto-fallback and per-card `Fx` / `Vx` re-fetch buttons.
+* **🎯 Filters & Sorting**:
+* Filter by **Suspended**, **Protected**, **With/Without Media**, and **Without Text**.
+* Search by post text, tweet IDs (display names, or `@usernames` might not work properly if all the posts have not indexed yet)
+* Sort posts by **Archive Order**, **Newest First**, or **Oldest First**.
+* **⚙️ Custom Media Downloader**:
+* Saves original photo resolutions (`name=orig`) and source MP4 video streams.
+* Customizable filename (e.g. **Sample File:** `twitter_1967176651479117983_1.jpg`)
 
-## 🛠️ Tech Stack
+---
 
-- **Frontend**: Pure Vanilla HTML5, CSS3, JavaScript (ES6+)
-- **API**: [VxTwitter API](https://github.com/dper2174/vxtwitter) (for live metadata fetching)
-- **Storage**: Browser `localStorage` API
-- **Deployment**: Zero build steps — Vercel, GitHub Pages, or any static hosting compatible.
+## 🔒 Safety & Privacy
 
-## 🛡️ Privacy & Security Notice
+* **100% Client-Side**: No backend servers, databases, or tracking scripts. Your archive file is processed purely inside your browser.
+* **Private Local Caching**: API responses are cached in your browser's `localStorage` so previously fetched posts load instantly without hitting the API again.
+* **Full Data Control**: Use **🔄 Clear Archive** at any time to immediately wipe all saved archive data and cached media from your browser.
 
-This application operates completely on your local device:
+---
 
-* Your `like.js` file is parsed entirely inside your browser.
-* Public metadata and media links are requested through `api.vxtwitter.com`.
-* No personal data, login credentials, or private information is stored or collected.
+## 🚀 How to Use
+
+### Step 1: Get Your `like.js` File
+
+1. Go to **Twitter / X Settings** > **Your Account** > **Download an archive of your data**.
+2. Download and extract your archive `.zip` file once ready.
+3. Open the `data/` folder and locate **`like.js`**.
+
+### Step 2: Launch the Browser
+
+1. Open `index.html` in any web browser (Chrome, Edge, Firefox, Safari).
+2. Drag & drop your **`like.js`** file into the upload box.
+
+### Step 3: Configure Filename Pattern (Optional)
+
+Open **⚙️ Settings** to customize how downloaded files are named. You can click or drag & drop any tag chip into the input field:
+
+| Tag | Example Output |
+| --- | --- |
+| `{username}` | `@handle` |
+| `{twittername}` | Display Name |
+| `{userid}` | Account ID |
+| `{postid}` | Tweet Status ID |
+| `{date}` | Post Date (`YYYY-MM-DD`) |
+| `{index}` | Media position index (`1`, `2`, ...) |
+
+**Default Pattern:** `{username}_{postid}_{index}`
+
+**Sample File:** `twitter_1967176651479117983_1.jpg`
