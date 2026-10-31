@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <title>My Twitter Likes Media Archive Browser</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="navLeftContainer" class="edge-nav-container edge-nav-left" style="display:none;">
+    <div class="page-indicator-badge page-badge-text">1/1</div>
+    <button id="navLeft" class="edge-nav" onclick="changePage(-1)">&#10094;</button>
+</div>
+<div id="navRightContainer" class="edge-nav-container edge-nav-right" style="display:none;">
+    <div class="page-indicator-badge page-badge-text">1/1</div>
+    <button id="navRight" class="edge-nav" onclick="changePage(1)">&#10095;</button>
+</div>
+
+<div class="container">
+    <header>
+        <h1>Liked Post Browser</h1>
+        <p>2026/11/01 Version</p>
+    </header>
+
+    <div id="dropZone" class="upload-zone">
+        <p>📁 Click or Drag & Drop your <strong>like.js</strong> file here</p>
+        <p class="sub-text">(Your file is saved privately in your local browser storage)</p>
+        <input type="file" id="fileInput" accept=".js" onchange="handleFile(this.files)">
+        
+        <div class="upload-engine-picker" onclick="event.stopPropagation()">
+            <label for="uploadEngineSelect" class="upload-engine-label">⚡ Fetch Engine Mode:</label>
+            <select id="uploadEngineSelect" class="filter-select api-engine-select" onchange="handleEngineChange(this.value)">
+                <option value="auto">🤖 Engine: Auto (Smart Fallback)</option>
+                <option value="fxtwitter">🛠️ Engine: FixTweet Only</option>
+                <option value="vxtwitter">🛠️ Engine: VxTwitter Only</option>
+            </select>
+        </div>
+    </div>
+
+    <div id="workspace" style="display: none;">
+        <!-- Primary Action Bar -->
+        <div class="filter-bar">
+            <input type="text" id="searchBox" class="search-box" placeholder="🔍 Search text, IDs, names, or handles..." oninput="handleSearchAndFilter()">
+            
+            <select id="apiEngineSelect" class="filter-select api-engine-select" onchange="handleEngineChange(this.value)">
+                <option value="auto">🤖 Engine: Auto (Smart Fallback)</option>
+                <option value="fxtwitter">🛠️ Engine: FixTweet Only</option>
+                <option value="vxtwitter">🛠️ Engine: VxTwitter Only</option>
+            </select>
+
+            <button class="filter-btn settings-btn" onclick="openDownloaderSettings()">⚙️ Settings</button>
+            <button class="filter-btn reset-btn" onclick="clearLoadedArchive()">🔄 Clear Archive</button>
+        </div>
+        
+        <!-- Multi-Filter & Sorting Controls -->
+        <div class="multi-filter-container">
+            <div class="filter-section-group">
+                <span class="filter-label">🔽 Sort:</span>
+                <select id="sortOrder" class="filter-select" onchange="handleSearchAndFilter()">
+                    <option value="default" selected>↔️ Default (Archive Order)</option>
+                    <option value="newest">⬇️ Newest First</option>
+                    <option value="oldest">⬆️ Oldest First</option>
+                </select>
+            </div>
+
+            <div class="filter-section-group">
+                <span class="filter-label">🎯 Filters:</span>
+                
+                <!-- Independent Filters -->
+                <label class="filter-chip">
+                    <input type="checkbox" id="hideSuspended" value="hideSuspended" class="filter-checkbox" checked onchange="handleSearchAndFilter()">🚫 Hide Suspended
+                </label>
+                <label class="filter-chip">
+                    <input type="checkbox" id="noText" value="noText" class="filter-checkbox" onchange="handleSearchAndFilter()">📄 Without Text
+                </label>
+
+                <!-- Mutually Exclusive Pair 1: Media -->
+                <label class="filter-chip">
+                    <input type="checkbox" id="hasMedia" value="hasMedia" class="filter-checkbox" onchange="handleMutexFilter(this, 'noMedia')">🖼️ With Media
+                </label>
+                <label class="filter-chip">
+                    <input type="checkbox" id="noMedia" value="noMedia" class="filter-checkbox" onchange="handleMutexFilter(this, 'hasMedia')">🚫🖼️ Without Media
+                </label>
+
+                <!-- Mutually Exclusive Pair 2: Protected -->
+                <label class="filter-chip">
+                    <input type="checkbox" id="hideProtected" value="hideProtected" class="filter-checkbox" onchange="handleMutexFilter(this, 'onlyProtected')">🔒 Hide Protected
+                </label>
+                <label class="filter-chip">
+                    <input type="checkbox" id="onlyProtected" value="onlyProtected" class="filter-checkbox" onchange="handleMutexFilter(this, 'hideProtected')">🔓 Show Protected
+                </label>
+            </div>
+        </div>
+
+        <!-- Items Count Badge Positioned Prominently -->
+        <div class="count-display-container">
+            <span id="itemCountDisplay" class="item-count-badge">0 out of 0 items are shown</span>
+        </div>
+        
+        <div id="likesList" class="likes-list"></div>
+
+        <div class="pagination-bar">
+            <button class="filter-btn" onclick="changePage(-1)" id="bottomNavPrev">❮ Previous</button>
+            <span class="page-indicator-badge page-badge-text">1/1</span>
+            <button class="filter-btn" onclick="changePage(1)" id="bottomNavNext">Next ❯</button>
+        </div>
+
+        <div class="bottom-spacer"></div>
+    </div>
+</div>
+
+<!-- Downloader Settings Modal -->
+<div id="settingsModal" class="modal-overlay" style="display:none;">
+    <div class="modal-content">
+        <h2>⚙️ Downloader Settings</h2>
+
+        <div class="setting-group">
+            <label class="setting-label">🎬 Video Quality:</label>
+            <select id="settingVideoQuality" class="modal-select">
+                <option value="max"> Highest Bitrate / Max Resolution MP4 (Source)</option>
+                <option value="default"> Standard Stream</option>
+            </select>
+        </div>
+
+        <div class="setting-group">
+            <label class="setting-label">🏷️ Filename Pattern:</label>
+            <input type="text" id="settingFilenamePattern" class="modal-input" placeholder="{username}_{postid}_{index}">
+            
+            <div class="tags-container">
+                <span class="tag-chip" draggable="true" onclick="insertFilenameTag('{username}')" ondragstart="handleTagDragStart(event, '{username}')">+ {username}</span>
+                <span class="tag-chip" draggable="true" onclick="insertFilenameTag('{userid}')" ondragstart="handleTagDragStart(event, '{userid}')">+ {userid}</span>
+                <span class="tag-chip" draggable="true" onclick="insertFilenameTag('{postid}')" ondragstart="handleTagDragStart(event, '{postid}')">+ {postid}</span>
+                <span class="tag-chip" draggable="true" onclick="insertFilenameTag('{twittername}')" ondragstart="handleTagDragStart(event, '{twittername}')">+ {twittername}</span>
+                <span class="tag-chip" draggable="true" onclick="insertFilenameTag('{date}')" ondragstart="handleTagDragStart(event, '{date}')">+ {date}</span>
+                <span class="tag-chip" draggable="true" onclick="insertFilenameTag('{index}')" ondragstart="handleTagDragStart(event, '{index}')">+ {index}</span>
+            </div>
+            <p class="setting-hint">💡 Click or drag & drop tags into the input above.</p>
+        </div>
+
+        <div class="modal-actions">
+            <button class="filter-btn" onclick="saveDownloaderSettings()">💾 Save Settings</button>
+            <button class="filter-btn reset-btn" onclick="closeDownloaderSettings()">❌ Cancel</button>
+        </div>
+    </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
