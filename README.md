@@ -1,4 +1,4 @@
-**Download and use on your own computer. Using on my [Vercel](xarchivelikedpostsbrowser.vercel.app) is alright but it might not work properly.**
+**Download and use on your own computer. Using on my [Vercel](https://xarchivelikedpostsbrowser.vercel.app/) is alright but it might not work properly.**
 
 # Liked Post Browser 🐦
 
