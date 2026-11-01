@@ -500,7 +500,7 @@ function showFetchWarning(tweetId, state) {
 
     if (state === "protected" || state === 401) {
         colorClass = "fetch-warning-yellow";
-        message = "🔒 <strong>Status 401 (Protected)</strong>: Account owner limits who can view their posts. Try pressing <strong>Fx</strong> or <strong>Vx</strong> above to re-check.";
+        message = "🔒 <strong>Status 401 (Protected)</strong>: Account owner limits who can view their posts. Try checking the live post if you follow this profile.";
     } else {
         const displayCode = (typeof state === "number" && state !== 403) ? state : 404;
         colorClass = "fetch-warning-red";
