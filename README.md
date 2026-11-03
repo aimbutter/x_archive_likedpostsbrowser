@@ -8,13 +8,12 @@ A lightweight, local web application to browse, filter, search, and download hig
 
 ## ✨ Features
 
-* **📁 Archive Parser**: Drag and drop your Twitter `like.js` file to load your liked posts locally.
-* **⚡ Smart Media Fetching**: Uses **FixTweet** and **VxTwitter** APIs with auto-fallback and per-card `Fx` / `Vx` re-fetch buttons.
-* **🎯 Filters & Sorting**:
+* **Media Fetching**: Uses **FixTweet** and **VxTwitter** APIs with auto-fallback
+* **Filters & Sorting**:
 * Filter by **Suspended**, **Protected**, **With/Without Media**, and **Without Text**.
 * Search by post text, tweet IDs (display names, or `@usernames` might not work properly if all the posts have not indexed yet)
 * Sort posts by **Archive Order**, **Newest First**, or **Oldest First**.
-* **⚙️ Custom Media Downloader**:
+* **Custom Media Downloader**:
 * Saves original photo resolutions (`name=orig`) and source MP4 video streams.
 * Customizable filename (e.g. **Sample File:** `twitter_1967176651479117983_1.jpg`)
 
